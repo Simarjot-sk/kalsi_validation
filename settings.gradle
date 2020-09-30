@@ -1,0 +1,3 @@
+include ':kalsi-validation'
+include ':app'
+rootProject.name = "MVVMFormTest"
