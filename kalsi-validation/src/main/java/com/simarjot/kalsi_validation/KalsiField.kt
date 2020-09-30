@@ -10,6 +10,11 @@ import androidx.lifecycle.MutableLiveData
  * and null is there is no error in the field.
  */
 class KalsiField(val validation: (fieldValue: String) -> String?) {
+    /**
+     * Creates a field with required validator.
+     */
+    constructor() : this(requiredValidator)
+
     val fieldValue = MutableLiveData<String?>()
     val error = MediatorLiveData<String?>()
 

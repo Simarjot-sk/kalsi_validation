@@ -1,27 +1,17 @@
 package com.simarjot.mvvmformtest
 
-import android.util.Patterns
-import com.simarjot.kalsi_validation.KalsiField
-import com.simarjot.kalsi_validation.KalsiValidator
+import com.simarjot.kalsi_validation.*
 
 class LoginForm {
 
-    val email = KalsiField {
-        if (Patterns.EMAIL_ADDRESS.matcher(it).matches())
-            null
-        else "Please Enter a valid Email"
-    }
+    val email = KalsiField(emailValidator)
 
-    val password = KalsiField {
-        if (it.length < 8)
-            "Password should be at least 8 characters long."
-        else null
-    }
+    val password = KalsiField(getMinLengthValidator(8))
 
-    val nonMandatoryField = KalsiField {
-        return@KalsiField null
-    }
+    val nonMandatoryField = KalsiField(noneValidator)
+
+    val requiredField = KalsiField(requiredValidator)
 
     val kalsiValidator =
-        KalsiValidator(listOf(email, password))
+        KalsiValidator(listOf(email, password, requiredField))
 }
