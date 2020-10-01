@@ -21,4 +21,10 @@ class KalsiValidator(private val fields:List<KalsiField>) {
             }
         }
     }
+
+    fun validateAllFieldsManually(){
+        fields.forEach {
+            it.validate()
+        }
+    }
 }

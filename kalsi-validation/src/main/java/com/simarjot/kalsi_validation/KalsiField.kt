@@ -4,12 +4,12 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 
 /**
- * Encapsulates validation login of a field along with the error message and the actual value of the field.
+ * Encapsulates validation logic of a field along with the error message and the actual value of the field.
  *
  * Constructor Arguments: Takes a validation function as a parameter, which will return a String message if there is an error,
  * and null is there is no error in the field.
  */
-class KalsiField(val validation: (fieldValue: String) -> String?) {
+class KalsiField(private val validation: (fieldValue: String?) -> String?) {
     /**
      * Creates a field with required validator.
      */
@@ -24,11 +24,28 @@ class KalsiField(val validation: (fieldValue: String) -> String?) {
 
         error.addSource(fieldValue) {
             //this block will be called every time there is a change in field.
-            it?:return@addSource
-            error.value = validation(it)
+            applyValidation(it)
         }
     }
 
+    private fun applyValidation(currentValue:String?){
+        error.value = validation(currentValue)
+    }
+
+    /**
+     * Can be called to perform validation manually
+     *
+     * validates the field with the current value of the field
+     */
+    fun validate(){
+        applyValidation(fieldValue.value)
+    }
+
     //error will contain null when field is valid and a String message otherwise.
-    fun isValid() = error.value == null
+    fun isValid() =
+        error.value == null
+
+    override fun toString(): String {
+        return fieldValue.value ?: ""
+    }
 }

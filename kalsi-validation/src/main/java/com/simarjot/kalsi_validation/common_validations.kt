@@ -2,24 +2,26 @@ package com.simarjot.kalsi_validation
 
 import android.util.Patterns
 
-fun getMinLengthValidator(minLength: Int): (String) -> String? {
-    return { fieldValue ->
-        if (fieldValue.length >= minLength) null
-        else "This field should contain at least $minLength characters."
+fun getMinLengthValidator(minLength: Int): (String?) -> String? {
+    return { fieldValue: String? ->
+        if (fieldValue == null || fieldValue.length < minLength)
+            "This field should contain at least $minLength characters."
+        else null
     }
 }
 
-val requiredValidator = { fieldValue: String ->
-    if (fieldValue.isNotEmpty()) null
-    else "This field is required."
+val requiredValidator = { fieldValue: String? ->
+    if (fieldValue.isNullOrEmpty())
+        "This field is required."
+    else null
 }
 
-val emailValidator = { fieldValue: String ->
-    if (Patterns.EMAIL_ADDRESS.matcher(fieldValue).matches())
-        null
-    else "Please enter a valid Email."
+val emailValidator = { fieldValue: String? ->
+    if (fieldValue == null || !Patterns.EMAIL_ADDRESS.matcher(fieldValue).matches())
+        "Please enter a valid Email."
+    else null
 }
 
-val noneValidator = { _: String ->
+val noneValidator = { _: String? ->
     null
 }
