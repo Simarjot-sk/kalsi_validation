@@ -8,7 +8,7 @@ import androidx.lifecycle.MediatorLiveData
 class KalsiValidator(private val fields:List<KalsiField>) {
 
     //performs logical AND on all the fields, to find if all fields are valid or not.
-    private fun areAllFieldsValid() =
+    fun areAllFieldsValid() =
         fields.map { it.isValid() }
             .reduce { acc, errorValue -> acc && errorValue }
 
@@ -22,9 +22,10 @@ class KalsiValidator(private val fields:List<KalsiField>) {
         }
     }
 
-    fun validateAllFieldsManually(){
+    fun validateAllFieldsManually() : Boolean{
         fields.forEach {
             it.validate()
         }
+        return areAllFieldsValid()
     }
 }

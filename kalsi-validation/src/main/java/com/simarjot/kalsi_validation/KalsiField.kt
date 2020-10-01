@@ -9,7 +9,7 @@ import androidx.lifecycle.MutableLiveData
  * Constructor Arguments: Takes a validation function as a parameter, which will return a String message if there is an error,
  * and null is there is no error in the field.
  */
-class KalsiField(private val validation: (fieldValue: String?) -> String?) {
+class KalsiField(private val validation: (kalsiField:KalsiField, fieldValue: String?) -> String?) {
     /**
      * Creates a field with required validator.
      */
@@ -29,7 +29,7 @@ class KalsiField(private val validation: (fieldValue: String?) -> String?) {
     }
 
     private fun applyValidation(currentValue:String?){
-        error.value = validation(currentValue)
+        error.value = validation(this, currentValue)
     }
 
     /**
